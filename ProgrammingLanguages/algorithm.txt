@@ -1,0 +1,18 @@
+
+BEGIN
+	Read CSV file of restaurants meal info as 'restaurants'
+	Accept user's list of items 'userInputItems'
+
+	FOR every restaurant from restaurants, 
+	DO
+		Identify meals which match user's list say matchedMeals
+		Identify the lowest cost from the matchedMeals
+	DONE
+
+	Identify which restaurant offers the items at least cost
+
+	IF user's input items not available in any restaurant
+	THEN
+		DISPLAY "Items you wish are not available in any restaurant"
+	END IF
+END
