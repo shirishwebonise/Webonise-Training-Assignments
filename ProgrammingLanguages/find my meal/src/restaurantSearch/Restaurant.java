@@ -1,5 +1,6 @@
 package restaurantSearch;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 
 public class Restaurant {
@@ -21,6 +22,27 @@ public class Restaurant {
 
 	public Integer getRestaurantId() {
 		return this.restaurantId;
+	}
+	
+	public Meal getBestMealForItems(ArrayList<String> userItemNames){
+		Meal bestMealForUser = null;
+		
+		ListIterator<Meal> mealListIterator = this.mealList.listIterator();
+		
+		while(mealListIterator.hasNext()){
+			Meal meal = mealListIterator.next();
+			
+			if(meal.containsAllItems(userItemNames)){
+				if(bestMealForUser == null){
+					bestMealForUser = meal;
+				}
+				else if(bestMealForUser.getPrice() < meal.getPrice()){
+					bestMealForUser = meal;
+				}
+			}
+		}
+		
+		return bestMealForUser;
 	}
 
 	public String toString(){

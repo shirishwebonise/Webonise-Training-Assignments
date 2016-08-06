@@ -23,6 +23,12 @@ public class Client {
 		}
 	}
 	
+	private static String getFileNameFromCLArguments(String[] arguments){
+		if(arguments.length > 1)
+			return arguments[0];
+		return null;
+	}
+	
 	private static ArrayList<String> getUsersListOfItems(String[] arguments) {
 		
 		ArrayList<String> userItems = new ArrayList<String>();
@@ -32,6 +38,21 @@ public class Client {
 		}
 		
 		return userItems;
+	}
+	
+	private static void createRestaurantsFromFile(String inputFileName) {
+		if(inputFileName != null){
+			BufferedReader inputReader = createFileReaderForFile(inputFileName);
+			
+			try{
+				String line;
+				while ((line = inputReader.readLine()) != null) {
+			        createOrUpdateRestaurant(line);		    
+			    }
+			}catch(Exception e){
+				System.out.println(e);
+			}
+		}
 	}
 
 	private static void checkRestaurantsForItems(ArrayList<String> userItemList) {
@@ -43,7 +64,7 @@ public class Client {
 		while(restaurantIterator.hasNext()){
 			Restaurant thisRestaurant = restaurantIterator.next();
 			
-			Meal selectedMeal = checkIfUserItemsInTheRestaurant(thisRestaurant, userItemList);
+			Meal selectedMeal = thisRestaurant.getBestMealForItems(userItemList);
 			
 			if(selectedMeal != null){
 				if(bestMealSelected!=null){
@@ -69,76 +90,7 @@ public class Client {
 			System.out.println("\nAll items are not available in any restaurant");
 		}
 	}
-
-	private static Meal checkIfUserItemsInTheRestaurant(Restaurant theRestaurant, ArrayList<String> userItemList) {
-		ArrayList<Meal> restaurantMealList = theRestaurant.getMealList();
-		ListIterator<Meal> restaurantMealListIterator = restaurantMealList.listIterator();
-		
-		System.out.println("\nTracking restaurant : " + theRestaurant.getRestaurantId());
-
-		Meal bestCostEffectiveMeal = null;
-		
-		while(restaurantMealListIterator.hasNext()){
-			
-			Meal theMealFromRestaurant = (Meal)restaurantMealListIterator.next();
-			
-			Meal currentSelectedMeal = getPriceIfAllItemsAvailableInOneMeal(theMealFromRestaurant, userItemList);
-			
-			if( currentSelectedMeal != null ){
-				
-				System.out.println("Items are available in the meal : " + currentSelectedMeal);
-				
-				Double priceOfTheMeal = currentSelectedMeal.getPrice();
-				
-				if(bestCostEffectiveMeal == null){
-					bestCostEffectiveMeal = currentSelectedMeal;
-				}
-				else if( priceOfTheMeal < bestCostEffectiveMeal.getPrice() ){
-					bestCostEffectiveMeal = currentSelectedMeal;
-				}
-			}
-		}
-		
-		if(bestCostEffectiveMeal!=null){
-			System.out.println("Items available in the meal :  " + bestCostEffectiveMeal);
-		}
-		
-	    return bestCostEffectiveMeal;
-	}
-
-	private static Meal getPriceIfAllItemsAvailableInOneMeal(Meal theMealFromRestaurant, ArrayList<String> userItemList) {
-		
-		ArrayList<String> itemsFromTheMeal = theMealFromRestaurant.getItems();
-
-		if(itemsFromTheMeal.containsAll(userItemList)){
-			return theMealFromRestaurant;
-		}
-		
-		return null;
-	}
-
-	private static String getFileNameFromCLArguments(String[] arguments){
-		if(arguments.length > 1)
-			return arguments[0];
-		return null;
-	}
 	
-	private static void createRestaurantsFromFile(String inputFileName) {
-		if(inputFileName != null){
-			BufferedReader inputReader = createFileReaderForFile(inputFileName);
-			
-			try{
-				String line;
-				while ((line = inputReader.readLine()) != null) {
-			        createOrUpdateRestaurant(line);		    
-			    }
-			}catch(Exception e){
-				System.out.println(e);
-			}
-		}
-	}
-
-
 	private static void createOrUpdateRestaurant(String line) {
 				
 		String[] lineFields = line.split(", ");
