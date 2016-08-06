@@ -21,5 +21,13 @@ public class Meal {
 		return items;
 	}
 
-	
+	@Override
+	public String toString(){
+		String itemString = "";
+		
+		for(int i=0; i<items.size(); i++){
+			itemString = itemString+items.get(i) + " | ";
+		}
+		return price + " | " + itemString;
+	}
 }

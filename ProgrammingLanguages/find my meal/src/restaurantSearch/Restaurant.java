@@ -12,17 +12,24 @@ public class Restaurant {
 	}
 
 	public ArrayList<Meal> getMealList() {
-		return mealList;
+		return this.mealList;
 	}
 
 	public void addMeal(Meal newMeal) {
 		this.mealList.add(newMeal);
 	}
-	
 
 	public Integer getRestaurantId() {
-		return restaurantId;
+		return this.restaurantId;
 	}
 
-
+	public String toString(){
+		String mealListString = "";
+		
+		for(int i=0; i<mealList.size(); i++){
+			mealListString = mealListString + this.mealList.get(i).toString() + "\n";
+		}
+		
+		return this.restaurantId + " \n" + mealListString;
+	}
 }
