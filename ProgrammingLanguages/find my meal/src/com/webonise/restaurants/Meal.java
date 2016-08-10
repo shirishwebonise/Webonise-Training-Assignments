@@ -1,4 +1,4 @@
-package restaurantSearch;
+package com.webonise.restaurants;
 import java.util.ArrayList;
 
 public class Meal {
