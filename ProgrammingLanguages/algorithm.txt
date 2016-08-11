@@ -5,8 +5,10 @@ BEGIN
 
 	FOR every restaurant from restaurants, 
 	DO
-		Identify meals which match user's list say matchedMeals
-		Identify the lowest cost from the matchedMeals
+		filter meals to keep only the meals which has an item from userInputItems
+		create all possible subsets of the set of meals (using a binary sieve)
+		filter the list of the subsets to keep only those which covers all items
+		identify lowest cost from the filtered list
 	DONE
 
 	Identify which restaurant offers the items at least cost
