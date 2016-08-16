@@ -1,0 +1,85 @@
+
+Collection - Users
+
+{
+	account: {
+		username: "shirish.sp",
+		password: "**********",
+		roles: [
+			{
+				role: "editor",
+				assigned_by: {
+					username: "raj.desai"
+				}
+			}
+		],
+		sessions: [
+			{
+				session_id: "WdLiluxxZVkPUHsoqnfcQ1YpARuj9Z7or3COA4HNNAv",
+				ip_address: ""
+			}
+		]
+	},
+	profile: {
+		name: {
+			first_name: "Shirish",
+			second_name: "Shrikant",
+			last_name: "Parsekar"
+		},
+		address: {
+			state: "Goa",
+			country: "India"
+		},
+		date_of_birth: {
+			day: "14",
+			month: "09",
+			year: "1992"
+		},
+		email: "parsekarshirish171@gmail.com",
+		phone: "9545327373",
+		about_me: "
+			i am this,
+			i am this,
+			i am this
+		",
+	},
+	posts: [
+		{
+			heading: "",
+			body: "",
+			datetime: "",
+			photos: [
+				{},
+				{},
+				{}
+			],
+			tags: [
+				"",
+				"",
+				""
+			],
+			comments: [
+				{
+					datetime: "",
+					text: "",
+					likes: [
+						{
+							username: "",
+							datetime: ""
+						}
+					],
+					comments: [
+						datetime: "",
+						text: "",
+						likes: [
+							{
+								username: "",
+								datetime: ""
+							}
+						]
+					]
+				}
+			]
+		}
+	]
+}
