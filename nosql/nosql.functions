@@ -1,0 +1,120 @@
+----------------------------------------------------------------------------------------
+
+<< create a new account with basic account info >>
+
+db.users.insert({
+	account: {
+		username: "shirish.sp",
+		password: "**********",
+		roles: [
+			{
+				role: "user"
+			}
+		],
+		sessions: [
+			{
+				session_id: "WdLiluxxZVkPUHsoqnfcQ1YpARuj9Z7or3COA4HNNAv",
+				ip_address: "192.168.10.10"
+			}
+		]
+	},
+	profile: {
+		email: "parsekarshirish171@gmail.com",
+		phone: "9545327373"
+	}
+})
+
+db.users.insert({
+	account: {
+		username: "rahulss",
+		password: "**********",
+		roles: [
+			{
+				role: "user"
+			}
+		],
+		sessions: [
+			{
+				session_id: "WdLiluxxZVkPUHsoqnfcQ1YpARuj9Z7or3COA4TYUAv",
+				ip_address: "192.168.10.11"
+			}
+		]
+	},
+	profile: {
+		email: "rahulss@gmail.com",
+		phone: "7777777777"
+	}
+})
+
+db.users.insert({account:{username: "rahulss"}})
+
+db.users.remove({account:{username: "rahulss"}}, {justOne: true})
+
+db.users.find({"account.username": "rahulss"})
+
+--------------------------------------------------------------------------------------
+
+<< updating profile information >>
+
+db.users.find({ "account.username" : "shirish.sp"})
+
+db.users.update(
+	{ 
+		"account.username": "shirish.sp" 
+	},
+	{
+		$set:{
+			"profile.name": {
+				first_name: "Shirish",
+				second_name: "Shrikant",
+				last_name: "Parsekar"
+			}
+		}
+	}
+)
+
+db.users.update(
+	{ 
+		"account.username": "shirish.sp" 
+	},
+	{
+		$set: {
+			"profile.address": {
+				state: "Goa",
+				country: "India"
+			},
+			"profile.date_of_birth": {
+				day: "14",
+				month: "09",
+				year: "1992"
+			},
+			"profile.about_me": 
+				"i am this,"+
+				"i am this,"+
+				"i am this"
+		}
+	}
+)
+
+db.users.find({"account.username":"shirish.sp"}, { "profile": 1})
+db.users.find({"account.username":"shirish.sp"}, { "profile.address": 1 })
+db.users.find({"account.username":"shirish.sp"}, { "profile.date_of_birth": 1 })
+db.users.find({"account.username":"shirish.sp"}, { "profile.about_me": 1})
+
+---------------------------------------------------------------------------------------
+
+<< Adding posts >>
+
+db.users.update(
+	{"account.username": "shirish.sp"},
+	{	 	
+		"$push" : {
+ 			posts : {
+				heading: "",
+				body: "",
+				datetime: ""
+				tags: []
+			}
+		}
+	}
+)
