@@ -37,11 +37,10 @@ Collection - Users
 		},
 		email: "parsekarshirish171@gmail.com",
 		phone: "9545327373",
-		about_me: "
-			i am this,
-			i am this,
-			i am this
-		",
+		"profile.about_me": 
+				"i am this,"+
+				"i am this,"+
+				"i am this"
 	},
 	posts: [
 		{
