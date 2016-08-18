@@ -114,7 +114,8 @@ VALUES ( '3', '2' );
 INSERT INTO orders ( status_id, user_id)
 VALUES ( '5', '4' );
 
-
+INSERT INTO orders ( status_id, user_id)
+VALUES ( '2', '4' );
 
 
 INSERT INTO order_items 
@@ -144,10 +145,7 @@ VALUES ( '4', '5', '4');
 
 
 
-INSERT INTO payment_status ( status_text )
-VALUES ( 'init' );
-INSERT INTO payments 
-VALUES ( '6', '2-25-2016', '1' );
+
 INSERT INTO payment_status ( status_text )
 VALUES ( 'approved' );
 
@@ -155,7 +153,8 @@ INSERT INTO payment_status ( status_text )
 VALUES ( 'error' );
 
 INSERT INTO payment_status ( status_text )
-VALUES ( 'cancelled' );
+VALUES ( 'successful' );
+
 
 
 
@@ -175,5 +174,166 @@ INSERT INTO payments
 VALUES ( '5', '12-2-2016', '1' );
 
 INSERT INTO payments 
-VALUES ( '6', '2-25-2016', '1' );
+VALUES ( '7', '2-25-2016', '4' );
+
+
+
+SELECT o.id, o.status_id as order_status, p.status_id as payment_status 
+FROM orders o, payments p 
+WHERE o.id = p.order_id AND o.id = '1';
+
+
+
+CREATE OR REPLACE FUNCTION makePayment( oId integer ) RETURNS text AS $$
+DECLARE
+	payment_status integer;
+	order_status integer;
+	transaction_status text;
+BEGIN
+	SELECT p.status_id, o.status_id INTO payment_status, order_status
+	FROM orders o, payments p 
+	WHERE o.id = p.order_id AND o.id = oId;
+
+	IF payment_status = 2 AND (order_status = 2 OR order_status = 3)
+	THEN
+		-- make payment according to payment mode
+		UPDATE payments SET status_id = 5
+		WHERE order_id = oId;
+
+		transaction_status := 'transaction successful';
+	ELSE
+		transaction_status := 'transaction not possible';
+	END IF;
+
+	RETURN transaction_status;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+--CREATE TRIGGER trig_order_items_insert AFTER INSERT 
+
+
+
+-- function to create and set discounted amount
+CREATE OR REPLACE FUNCTION calculateAndSetDiscountedAmount( orderId integer ) 
+RETURNS double precision 
+AS $$
+DECLARE
+	order_amount double precision;
+	coupon_numb character(10);
+	coupon_discount integer;
+	coupon_discount_lower_limit integer;
+	discounted_amount double precision;
+	row payments_discounts%rowtype;
+BEGIN
+	SELECT * INTO order_amount
+	FROM calculateOrderTotal(orderId);
+
+	discounted_amount := order_amount;
+
+	FOR row IN
+        SELECT * FROM payments_discounts WHERE payment_id = orderId
+    LOOP
+        SELECT  lower_limit, discount_value_percentage INTO coupon_discount_lower_limit, coupon_discount
+        FROM discount_coupons 
+        WHERE id = row.coupon_number;
+
+        IF order_amount > coupon_discount_lower_limit
+        THEN
+        	discounted_amount := ( discounted_amount - discounted_amount * ( discount_value_percentage / 100 ) );
+        END IF;
+
+
+    END LOOP;
+
+    UPDATE payments SET payable_amount = discounted_amount
+    WHERE payments.order_id = orderId;
+    
+    RETURN discounted_amount;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+-- function to calculate total amount of an order
+CREATE OR REPLACE FUNCTION calculateOrderTotal( orderId integer )
+RETURNS double precision
+AS $$
+DECLARE
+	order_amount double precision;
+BEGIN
+	SELECT SUM(oi.quantity*cp.price) INTO order_amount
+	FROM order_items oi, colored_products cp 
+	WHERE oi.product_id = cp.id AND oi.order_id = orderId;
+
+	UPDATE orders SET amount = order_amount
+    WHERE id = orderId;
+
+	RETURN order_amount;
+END;
+$$ LANGUAGE plpgsql;
+
+
+INSERT INTO payments_discounts
+VALUES ('1', '642178');
+
+
+
+
+
+-- order details
+CREATE OR REPLACE VIEW orders_details
+AS 
+select o.id AS "order id", o.amount as "order total", o.order_date as "date", (o.amount - p.payable_amount::double precision) as "discount", p.payment_method as "payment method"
+from orders o, payments p where o.id = p.order_id;
+
+
+
+
+-- monthly reports generation
+-- use materialized view
+CREATE MATERIALIZED VIEW monthly_report
+AS
+	select orders.id as "order id", order_date as "order date", createCommaSeparatedProducts(orders.id) AS "product names", createCommaSeparatedProductPrices(orders.id) AS "product prices",amount as "total cost", (first_name || ' ' || last_name) as "user name", email from users, orders 
+	where users.id = orders.user_id AND order_date > (CURRENT_DATE - INTERVAL '30 day');
+
+-- refresh view 
+REFRESH MATERIALIZED VIEW monthly_report
+
+
+
+
+-- function to create comma separated product names
+-- used in monthly report generation query
+CREATE OR REPLACE FUNCTION createCommaSeparatedProducts(orderId integer)
+RETURNS text
+AS $$
+DECLARE
+	prod_names text;
+BEGIN
+	SELECT string_agg(products.name, ', ') INTO prod_names
+	FROM order_items, products, colored_products
+	WHERE order_items.product_id = colored_products.id AND products.id = colored_products.product_id AND order_items.order_id = orderId;
+
+	RETURN prod_names;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- function to create comma separated product prices
+-- used in monthly report generation query
+CREATE OR REPLACE FUNCTION createCommaSeparatedProductPrices(orderId integer)
+RETURNS text
+AS $$
+DECLARE
+	prod_names text;
+BEGIN
+	SELECT string_agg(CAST(colored_products.price as text), ', ') INTO prod_names
+	FROM order_items, products, colored_products
+	WHERE order_items.product_id = colored_products.id AND products.id = colored_products.product_id AND order_items.order_id = orderId;
+
+	RETURN prod_names;
+END;
+$$ LANGUAGE plpgsql;
 
