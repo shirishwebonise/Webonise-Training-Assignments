@@ -91,6 +91,8 @@ CREATE TABLE public."orders"
   id SERIAL,
   status_id smallint,
   user_id integer,
+  order_date date,
+  amount double precision,
   CONSTRAINT order_pk PRIMARY KEY (id),
   CONSTRAINT "order_fk_user" FOREIGN KEY (user_id)
       REFERENCES public."users" (id) MATCH SIMPLE
@@ -139,6 +141,8 @@ CREATE TABLE public."payments"
   order_id integer NOT NULL,
   payment_date date,
   status_id smallint,
+  payment_method character(10),
+  payable_amount double precision,
   CONSTRAINT payment_pk PRIMARY KEY (order_id),
   CONSTRAINT payment_fk_order FOREIGN KEY (order_id)
       REFERENCES public."orders" (id) MATCH SIMPLE
@@ -153,9 +157,6 @@ CREATE INDEX fki_payment_fk_status
   ON public."payments"
   USING btree
   (status_id);
-
-
-
 
 
 -- Table: public."payments_discounts"
@@ -176,3 +177,4 @@ CREATE INDEX fki_paymentdiscounts_fk_discountcoupons
   ON public."payments_discounts"
   USING btree
   (coupon_number COLLATE pg_catalog."default");
+  
