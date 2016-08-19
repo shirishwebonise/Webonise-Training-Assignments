@@ -210,8 +210,21 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+-- trigger function to update order amount when an item is added to the orders
+CREATE OR REPLACE FUNCTION calcOrderTotal()
+RETURNS TRIGGER
+AS $$
+BEGIN
+	PERFORM calculateOrderTotal(NEW.order_id);
 
---CREATE TRIGGER trig_order_items_insert AFTER INSERT 
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trig_order_items_insert 
+AFTER INSERT ON order_items
+FOR EACH ROW 
+EXECUTE PROCEDURE calcOrderTotal();
 
 
 
