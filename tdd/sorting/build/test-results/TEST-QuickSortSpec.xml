@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="QuickSortSpec" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-08-21T18:09:25" hostname="shirish-Lenovo-G500" time="0.099">
+  <properties/>
+  <testcase name="sort an array" classname="QuickSortSpec" time="0.099"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

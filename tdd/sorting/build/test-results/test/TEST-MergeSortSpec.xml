@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="MergeSortSpec" tests="2" skipped="0" failures="2" errors="0" timestamp="2016-08-21T05:41:43" hostname="Webonise-Desktop" time="0.209">
+  <properties/>
+  <testcase name="MergeSort() constructor accepts an array" classname="MergeSortSpec" time="0.087">
+    <failure message="groovy.lang.MissingMethodException: No signature of method: MergeSortSpec.MergeSort() is applicable for argument types: ([I) values: [[2, 3, 4]]" type="groovy.lang.MissingMethodException">groovy.lang.MissingMethodException: No signature of method: MergeSortSpec.MergeSort() is applicable for argument types: ([I) values: [[2, 3, 4]]
+	at MergeSortSpec.MergeSort() constructor accepts an array(MergeSortSpec.groovy:18)
+</failure>
+  </testcase>
+  <testcase name="sort() method sorts an array" classname="MergeSortSpec" time="0.122">
+    <failure message="Condition not satisfied:&#10;&#10;result == sortedArray&#10;|      |  |&#10;|      |  [0, 1, 2, 5, 9]&#10;|      false&#10;[5, 1, 9, 5, 1]&#10;" type="org.spockframework.runtime.SpockComparisonFailure">Condition not satisfied:
+
+result == sortedArray
+|      |  |
+|      |  [0, 1, 2, 5, 9]
+|      false
+[5, 1, 9, 5, 1]
+
+	at MergeSortSpec.sort() method sorts an array(MergeSortSpec.groovy:35)
+</failure>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
