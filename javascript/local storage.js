@@ -21,7 +21,7 @@ putInStorage.call(localStorage, "entry1", "some random value for entry1");
 putInStorage.call(sessionStorage, "someentry", "some random value for entry");
 
 getFromStorage.call(localStorage, "entry1");
-getFromStorage.call(sessionStorage, "someentry);
+getFromStorage.call(sessionStorage, "someentry");
 
 removeFromStorage.call(localStorage, "entry1")
 removeFromStorage.call(sessionStorage, "someentry")
