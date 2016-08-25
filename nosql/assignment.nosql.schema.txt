@@ -1,84 +1,120 @@
 
 Collection - Users
 
-{
-	account: {
-		username: "shirish.sp",
-		password: "**********",
-		roles: [
-			{
+[	
+	{
+		_id: "",
+		account: {
+			display_name: "shirish.sp",
+			password: "**********",
+			role:{
 				role: "editor",
-				assigned_by: {
-					username: "raj.desai"
-				}
-			}
-		],
-		sessions: [
-			{
-				session_id: "WdLiluxxZVkPUHsoqnfcQ1YpARuj9Z7or3COA4HNNAv",
-				ip_address: ""
-			}
-		]
-	},
-	profile: {
-		name: {
-			first_name: "Shirish",
-			second_name: "Shrikant",
-			last_name: "Parsekar"
-		},
-		address: {
-			state: "Goa",
-			country: "India"
-		},
-		date_of_birth: {
-			day: "14",
-			month: "09",
-			year: "1992"
-		},
-		email: "parsekarshirish171@gmail.com",
-		phone: "9545327373",
-		about_me: 
-				"i am this,"+
-				"i am this,"+
-				"i am this"
-	},
-	posts: [
-		{
-			heading: "",
-			body: "",
-			datetime: "",
-			photos: [
-				{},
-				{},
-				{}
-			],
-			tags: [
-				"",
-				"",
-				""
-			],
-			comments: [
+				assigned_by: "object id of a user",
+				assigned_users: [
+					"object id of a user",
+					"object id of a user",
+					"object id of a user"
+				]
+			},
+			sessions: [
 				{
-					datetime: "",
-					text: "",
-					likes: [
-						{
-							username: "",
-							datetime: ""
-						}
-					],
-					comments: [
-						datetime: "",
-						text: "",
-						likes: [
-							{
-								username: "",
-								datetime: ""
-							}
-						]
-					]
+					session_id: "WdLiluxxZVkPUHsoqnfcQ1YpARuj9Z7or3COA4HNNAv",
+					ip_address: ""
 				}
 			]
+		},
+		profile: {
+			name: {
+				first_name: "Shirish",
+				second_name: "Shrikant",
+				last_name: "Parsekar"
+			},
+			address: {
+				state: "Goa",
+				country: "India"
+			},
+			date_of_birth: {
+				day: "14",
+				month: "09",
+				year: "1992"
+			},
+			email: "parsekarshirish171@gmail.com",
+			phone: "9545327373",
+			about_me: 
+					"i am this,"+
+					"i am this,"+
+					"i am this"
 		}
-	]
-}
+	}
+]
+
+Collection - posts
+
+[
+	{
+		_id: "",
+		created_by: "object id of the user"
+		heading: "",
+		body: "",
+		posted_at: "",
+		photos: [
+			{
+				url: "",
+				caption: ""
+			},
+			{
+				url: "",
+				caption: ""
+			},
+			{
+				url: "",
+				caption: ""
+			}
+		],
+		hash_tags: [
+			"tag text",
+			"tag text",
+			"tag text"
+		],
+		comments: [
+			{
+				comment_id: "",
+				posted_at: "",
+				posted_by: {
+					user_id: "",
+					display_name: ""
+				},
+				comment_text: "",
+				likes: [
+					{
+						posted_by: {
+							user_id: "",
+							display_name: ""
+						},
+						posted_at: ""
+					}
+				],
+				comments: [
+					{
+						comment_id: "",
+						posted_at: "",
+						posted_by: {
+							user_id: "",
+							display_name: ""
+						},
+						comment_text: "",
+						likes: [
+							{	
+								posted_by: {
+									user_id: "",
+									display_name: ""
+								},
+								posted_at: ""
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+]
