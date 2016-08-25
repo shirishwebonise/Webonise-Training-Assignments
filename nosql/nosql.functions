@@ -4,17 +4,15 @@
 
 db.users.insert({
 	account: {
-		username: "shirish.sp",
+		display_name: "shirish.sp",
 		password: "**********",
-		roles: [
-			{
-				role: "user"
-			}
-		],
+		role:{
+			role: "superadmin"
+		},
 		sessions: [
 			{
 				session_id: "WdLiluxxZVkPUHsoqnfcQ1YpARuj9Z7or3COA4HNNAv",
-				ip_address: "192.168.10.10"
+				ip_address: ""
 			}
 		]
 	},
@@ -26,44 +24,224 @@ db.users.insert({
 
 db.users.insert({
 	account: {
-		username: "rahulss",
+		display_name: "rahul007",
 		password: "**********",
-		roles: [
-			{
-				role: "user"
-			}
-		],
+		role:{
+			role: "user"
+		},
 		sessions: [
 			{
-				session_id: "WdLiluxxZVkPUHsoqnfcQ1YpARuj9Z7or3COA4TYUAv",
-				ip_address: "192.168.10.11"
+				session_id: "WdLiluxxZVkPUHsoqnfcQ1YpARuj9Z7or3COA4HNNAv",
+				ip_address: ""
 			}
 		]
 	},
 	profile: {
-		email: "rahulss@gmail.com",
-		phone: "7777777777"
+		email: "rauhl007@gmail.com",
+		phone: "1111000011"
 	}
 })
 
-db.users.insert({account:{username: "rahulss"}})
+db.users.insert({
+	account: {
+		display_name: "riya.md",
+		password: "**********",
+		role:{
+			role: "user"
+		},
+		sessions: [
+			{
+				session_id: "WdLiluxxZVkPUHsoqnfcQ1YpARuj9Z7or3COA4HNNAv",
+				ip_address: ""
+			}
+		]
+	},
+	profile: {
+		email: "riyasa21@gmail.com",
+		phone: "2211000011"
+	}
+})
 
-db.users.remove({account:{username: "rahulss"}}, {justOne: true})
-
-db.users.find({"account.username": "rahulss"})
-
---------------------------------------------------------------------------------------
-
-<< updating profile information >>
-
-db.users.find({ "account.username" : "shirish.sp"})
-
-db.users.update(
+db.users.findOne(
 	{ 
-		"account.username": "shirish.sp" 
+		"profile.email" : "parsekarshirish171@gmail.com" 
 	},
 	{
-		$set:{
+		_id : 1
+	}
+)
+
+db.users.insert({
+	account: {
+		display_name: "alex.rd",
+		password: "**********",
+		role:{
+			role: "admin",
+			assigned_by: {
+				user_id: ObjectId("57bebcb89ff2d15a38d6a62b")
+			}
+		},
+		sessions: [
+			{
+				session_id: "WdLiluxxZVkPUHsoqnfcQ1YpARuj9Z7or3COA4HNNAv",
+				ip_address: ""
+			}
+		]
+	},
+	profile: {
+		email: "alexrd@gmail.com",
+		phone: "2214400011"
+	}
+})
+
+
+
+db.posts.insert({
+	created_by: ObjectId("57bebcb89ff2d15a38d6a62b"),
+	posted_at: new Date(),
+	heading: "Sachin wins a billion hearts",
+	body: "some text some text some text some textsome text" +
+			"some text" +
+			"some textsome text" +
+			"some textsome textsome textsome text",
+	photos: [
+		{
+			url: "http://somephoto.url.jpg",
+			caption: "Sachin at the presentation ceremony"
+		}
+	],
+	hash_tags: [
+		"tag text",
+		"tag text",
+		"tag text"
+	]
+})
+
+db.posts.update(
+	{
+		_id: ObjectId("57bebd4679c007364d8cc391"),
+	},
+	{
+		$set : { 
+			comments: []
+		}
+	}
+)
+
+db.posts.update(
+	{
+		_id: ObjectId("57bebd4679c007364d8cc391"),
+	},
+	{
+		$push : { 
+			comments: {
+				comment_id: ObjectId(),
+				posted_at: new Date(),
+				posted_by: {
+					user_id: ObjectId("57bebccb9ff2d15a38d6a62d"),
+					display_name: "riya.md"
+				},
+				comment_text: "Sachin you are the best!"
+			}
+		}
+	}
+)
+
+
+
+db.posts.update(
+	{
+		_id: ObjectId("57bebd4679c007364d8cc391"),
+	},
+	{
+		$push : { 
+			comments: {
+				comment_id: ObjectId(),
+				posted_at: new Date(),
+				posted_by: {
+					user_id: ObjectId("57bebcc39ff2d15a38d6a62c"),
+					display_name: "rahul007"
+				},
+				comment_text: "he certainly is :)"
+			}
+		}
+	}
+)
+
+db.posts.update(
+	{
+		_id: ObjectId("57bebd4679c007364d8cc391"),
+	},
+	{
+		$push : { 
+			comments: {
+				comment_id: ObjectId(),
+				posted_at: new Date(),
+				posted_by: {
+					user_id: ObjectId("57bebcc39ff2d15a38d6a62c"),
+					display_name: "rahul007"
+				},
+				comment_text: "brilliant speech!"
+			}
+		}
+	}
+)
+
+
+db.posts.insert({
+	created_by: ObjectId("57bebcc39ff2d15a38d6a62c"),
+	posted_at: new Date(),
+	heading: "Canon 5D Mark IV DSLR Announced",
+	body: "After way too long of a wait, we finally have a sequel from the " + 
+		  "famed Canon 5D Mark III. While Canon has enjoyed plenty of" + 	
+		  "success with that camera, it certainly has felt a little old" + 
+		  "in recent months, especially in comparison to the newer mirrorless Sony" +
+		  "A7RII and Nikon D810 DSLR. Thankfully, we have quite a few new things" +
+		  "to get excited over in the Canon 5D Mark IV so let's take a look.",
+	photos: [
+		{
+			url: "http://somephoto.url.jpg",
+			caption: "Canon 5D Mark IV DSLR"
+		}
+	],
+	hash_tags: [
+		"tag text",
+	]
+})
+
+db.posts.insert({
+	created_by: ObjectId("57bebcc39ff2d15a38d6a62c"),
+	posted_at: new Date(),
+	heading: "How to Get the Most Value Out of Your Coding Bootcamp",
+	body: "This depends on what your goal is for going to a coding bootcamp, but I'll assume for now that it's to get a job as a software engineer. One of the biggest things I've seen in outcomes at Fullstack is that attending the program acts as a multiplier of your skills/knowledge.",
+	photos: [
+		{
+			url: "http://somephoto.url.jpg",
+			caption: "Canon 5D Mark IV DSLR"
+		},
+		{
+			url: "http://somephoto.url2.jpg",
+			caption: "Canon 5D Mark IV DSLR"
+		}
+	]
+})
+
+
+
+db.posts.find({created_by : ObjectId("57bebcc39ff2d15a38d6a62c")})
+
+db.users.find(
+	{
+		_id: ObjectId("57bebcb89ff2d15a38d6a62b")
+	}
+)
+
+db.users.update(
+	{
+		_id: ObjectId("57bebcb89ff2d15a38d6a62b")
+	},
+	{
+		$set: {
 			"profile.name": {
 				first_name: "Shirish",
 				second_name: "Shrikant",
@@ -74,20 +252,39 @@ db.users.update(
 )
 
 db.users.update(
-	{ 
-		"account.username": "shirish.sp" 
+	{
+		_id: ObjectId("57bebcb89ff2d15a38d6a62b")
 	},
 	{
 		$set: {
 			"profile.address": {
 				state: "Goa",
 				country: "India"
-			},
+			}
+		}
+	}
+)
+
+db.users.update(
+	{
+		_id: ObjectId("57bebcb89ff2d15a38d6a62b")
+	},
+	{
+		$set: {
 			"profile.date_of_birth": {
 				day: "14",
 				month: "09",
 				year: "1992"
-			},
+			}
+		}
+	}
+)
+db.users.update(
+	{
+		_id: ObjectId("57bebcb89ff2d15a38d6a62b")
+	},
+	{
+		$set: {
 			"profile.about_me": 
 				"i am this,"+
 				"i am this,"+
@@ -96,25 +293,71 @@ db.users.update(
 	}
 )
 
-db.users.find({"account.username":"shirish.sp"}, { "profile": 1})
-db.users.find({"account.username":"shirish.sp"}, { "profile.address": 1 })
-db.users.find({"account.username":"shirish.sp"}, { "profile.date_of_birth": 1 })
-db.users.find({"account.username":"shirish.sp"}, { "profile.about_me": 1})
-
----------------------------------------------------------------------------------------
-
-<< Adding posts >>
-
 db.users.update(
-	{"account.username": "shirish.sp"},
-	{	 	
-		"$push" : {
- 			posts : {
-				heading: "",
-				body: "",
-				datetime: ""
-				tags: []
+	{
+		_id: ObjectId("57bebcb89ff2d15a38d6a62b")
+	},
+	{
+		$set: {
+			"profile.name": {
+				first_name: "Shirish",
+				second_name: "Shrikant",
+				last_name: "Parsekar"
 			}
+		},
+		$set: {
+			"profile.address": {
+				state: "Goa",
+				country: "India"
+			}
+		},
+		$set: {
+			"profile.date_of_birth": {
+				day: "14",
+				month: "09",
+				year: "1992"
+			}
+		},
+		$set: {
+			"profile.email": "parsekarshirish171@gmail.com"
+		},
+		$set: {
+			"profile.phone": "9545327373"
+		},
+		$set: {
+			"profile.about_me": 
+				"i am this,"+
+				"i am this,"+
+				"i am this"
 		}
 	}
+)
+
+
+db.posts.find(
+	{
+		_id: ObjectId("57bebd4679c007364d8cc391")
+	},
+	{
+		_id: 0,
+		comments: 1,
+
+	}
+).sort({"comments.posted_at" : -1}).pretty()
+
+db.posts.aggregate(
+    { $match: {
+        _id : ObjectId("57bebd4679c007364d8cc391")
+    }},
+
+    { $unwind: '$comments' },
+
+    { $sort: {
+        'comments.posted_at': -1
+    }}
+
+    {
+    	_id: 0,
+    	comments: ""
+    }
 )
