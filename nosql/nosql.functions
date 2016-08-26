@@ -345,19 +345,67 @@ db.posts.find(
 	}
 ).sort({"comments.posted_at" : -1}).pretty()
 
-db.posts.aggregate(
-    { $match: {
-        _id : ObjectId("57bebd4679c007364d8cc391")
-    }},
-
-    { $unwind: '$comments' },
-
-    { $sort: {
-        'comments.posted_at': -1
-    }}
-
-    {
-    	_id: 0,
-    	comments: ""
-    }
+db.posts.update(
+	{
+		_id: ObjectId("57bebd4679c007364d8cc391"),
+	},
+	{
+		$push : { 
+			comments: {
+				comment_id: ObjectId(),
+				posted_at: new Date(),
+				posted_by: {
+					user_id: ObjectId("57bebcc39ff2d15a38d6a62c"),
+					display_name: "rahul007"
+				},
+				comment_text: "brilliant speech!"
+			}
+		}
+	}
 )
+
+
+--------------------------------------------------------------------------
+
+ Review queries
+
+--------------------------------------------------------------------------
+
+db.posts.find(
+	{
+		_id: ObjectId("57bebd4679c007364d8cc391"),
+		"comments.comment_id" : ObjectId("57c046d3a5a4cefee3000407")
+	}
+).pretty()
+
+
+db.posts.update(
+	{ 
+		_id: ObjectId("57bebd4679c007364d8cc391")
+	}, 
+	{ 
+		$pull: { 
+			comments : {
+				"comment_id" : ObjectId("57bedfbd957d0e7ac562ce57")
+			}
+		} 
+	}
+)
+
+db.posts.update(
+	{ 
+		_id: ObjectId("57bebd4679c007364d8cc391"),
+		"comments.comment_id": ObjectId("57c046d3a5a4cefee3000407")
+	}, 
+	{ 
+		$set: { 
+			"comments.$.comment_text" : "some comment some comment "
+		} 
+	}
+)
+
+db.posts.findOne(ObjectId("57bebd4679c007364d8cc391")).comments.length
+
+db.posts.find({
+	comments : {$exists:true}, $where:'this.comments.length>3'
+})
