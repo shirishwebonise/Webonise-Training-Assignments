@@ -80,17 +80,13 @@ Collection - posts
 			{
 				comment_id: "",
 				posted_at: "",
-				posted_by: {
-					user_id: "",
-					display_name: ""
-				},
+				user_id: "",
+				display_name: "",
 				comment_text: "",
 				likes: [
 					{
-						posted_by: {
-							user_id: "",
-							display_name: ""
-						},
+						user_id: "",
+						display_name: "",
 						posted_at: ""
 					}
 				],
@@ -98,17 +94,13 @@ Collection - posts
 					{
 						comment_id: "",
 						posted_at: "",
-						posted_by: {
-							user_id: "",
-							display_name: ""
-						},
+						user_id: "",
+						display_name: "",
 						comment_text: "",
 						likes: [
 							{	
-								posted_by: {
-									user_id: "",
-									display_name: ""
-								},
+								user_id: "",
+								display_name: "",
 								posted_at: ""
 							}
 						]
