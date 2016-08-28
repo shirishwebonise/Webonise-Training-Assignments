@@ -67,7 +67,7 @@ db.users.findOne(
 		"profile.email" : "parsekarshirish171@gmail.com" 
 	},
 	{
-		_id : 1
+		_id : 0
 	}
 )
 
@@ -78,7 +78,7 @@ db.users.insert({
 		role:{
 			role: "admin",
 			assigned_by: {
-				user_id: ObjectId("57bebcb89ff2d15a38d6a62b")
+				user_id: ObjectId("57c279b1b5f524417913f9a7")
 			}
 		},
 		sessions: [
@@ -97,7 +97,7 @@ db.users.insert({
 
 
 db.posts.insert({
-	created_by: ObjectId("57bebcb89ff2d15a38d6a62b"),
+	created_by: ObjectId("57c279c4b5f524417913f9a8"),
 	posted_at: new Date(),
 	heading: "Sachin wins a billion hearts",
 	body: "some text some text some text some textsome text" +
@@ -130,17 +130,15 @@ db.posts.update(
 
 db.posts.update(
 	{
-		_id: ObjectId("57bebd4679c007364d8cc391"),
+		_id: ObjectId("57c27b1d9069c2163b338378"),
 	},
 	{
 		$push : { 
 			comments: {
 				comment_id: ObjectId(),
 				posted_at: new Date(),
-				posted_by: {
-					user_id: ObjectId("57bebccb9ff2d15a38d6a62d"),
-					display_name: "riya.md"
-				},
+				user_id: ObjectId("57bebccb9ff2d15a38d6a62d"),
+				display_name: "riya.md",
 				comment_text: "Sachin you are the best!"
 			}
 		}
@@ -151,17 +149,15 @@ db.posts.update(
 
 db.posts.update(
 	{
-		_id: ObjectId("57bebd4679c007364d8cc391"),
+		_id: ObjectId("57c27b1d9069c2163b338378"),
 	},
 	{
 		$push : { 
 			comments: {
 				comment_id: ObjectId(),
 				posted_at: new Date(),
-				posted_by: {
-					user_id: ObjectId("57bebcc39ff2d15a38d6a62c"),
-					display_name: "rahul007"
-				},
+				user_id: ObjectId("57bebccb9ff2d15a38d6a62d"),
+				display_name: "rahul007",
 				comment_text: "he certainly is :)"
 			}
 		}
@@ -170,17 +166,15 @@ db.posts.update(
 
 db.posts.update(
 	{
-		_id: ObjectId("57bebd4679c007364d8cc391"),
+		_id: ObjectId("57c27b1d9069c2163b338378"),
 	},
 	{
 		$push : { 
 			comments: {
 				comment_id: ObjectId(),
 				posted_at: new Date(),
-				posted_by: {
-					user_id: ObjectId("57bebcc39ff2d15a38d6a62c"),
-					display_name: "rahul007"
-				},
+				user_id: ObjectId("57c279ceb5f524417913f9a9"),
+				display_name: "rahul007",
 				comment_text: "brilliant speech!"
 			}
 		}
@@ -189,7 +183,7 @@ db.posts.update(
 
 
 db.posts.insert({
-	created_by: ObjectId("57bebcc39ff2d15a38d6a62c"),
+	created_by: ObjectId("57c279ceb5f524417913f9a9"),
 	posted_at: new Date(),
 	heading: "Canon 5D Mark IV DSLR Announced",
 	body: "After way too long of a wait, we finally have a sequel from the " + 
@@ -210,7 +204,7 @@ db.posts.insert({
 })
 
 db.posts.insert({
-	created_by: ObjectId("57bebcc39ff2d15a38d6a62c"),
+	created_by: ObjectId("57c279ceb5f524417913f9a9"),
 	posted_at: new Date(),
 	heading: "How to Get the Most Value Out of Your Coding Bootcamp",
 	body: "This depends on what your goal is for going to a coding bootcamp, but I'll assume for now that it's to get a job as a software engineer. One of the biggest things I've seen in outcomes at Fullstack is that attending the program acts as a multiplier of your skills/knowledge.",
@@ -228,17 +222,17 @@ db.posts.insert({
 
 
 
-db.posts.find({created_by : ObjectId("57bebcc39ff2d15a38d6a62c")})
+db.posts.find({created_by : ObjectId("57c279ceb5f524417913f9a9")})
 
 db.users.find(
 	{
-		_id: ObjectId("57bebcb89ff2d15a38d6a62b")
+		_id: ObjectId("57c279ceb5f524417913f9a9")
 	}
 )
 
 db.users.update(
 	{
-		_id: ObjectId("57bebcb89ff2d15a38d6a62b")
+		_id: ObjectId("57c279b1b5f524417913f9a7")
 	},
 	{
 		$set: {
@@ -253,7 +247,7 @@ db.users.update(
 
 db.users.update(
 	{
-		_id: ObjectId("57bebcb89ff2d15a38d6a62b")
+		_id: ObjectId("57c279b1b5f524417913f9a7")
 	},
 	{
 		$set: {
@@ -267,7 +261,7 @@ db.users.update(
 
 db.users.update(
 	{
-		_id: ObjectId("57bebcb89ff2d15a38d6a62b")
+		_id: ObjectId("57c279b1b5f524417913f9a7")
 	},
 	{
 		$set: {
@@ -281,49 +275,9 @@ db.users.update(
 )
 db.users.update(
 	{
-		_id: ObjectId("57bebcb89ff2d15a38d6a62b")
+		_id: ObjectId("57c279b1b5f524417913f9a7")
 	},
 	{
-		$set: {
-			"profile.about_me": 
-				"i am this,"+
-				"i am this,"+
-				"i am this"
-		}
-	}
-)
-
-db.users.update(
-	{
-		_id: ObjectId("57bebcb89ff2d15a38d6a62b")
-	},
-	{
-		$set: {
-			"profile.name": {
-				first_name: "Shirish",
-				second_name: "Shrikant",
-				last_name: "Parsekar"
-			}
-		},
-		$set: {
-			"profile.address": {
-				state: "Goa",
-				country: "India"
-			}
-		},
-		$set: {
-			"profile.date_of_birth": {
-				day: "14",
-				month: "09",
-				year: "1992"
-			}
-		},
-		$set: {
-			"profile.email": "parsekarshirish171@gmail.com"
-		},
-		$set: {
-			"profile.phone": "9545327373"
-		},
 		$set: {
 			"profile.about_me": 
 				"i am this,"+
@@ -336,7 +290,7 @@ db.users.update(
 
 db.posts.find(
 	{
-		_id: ObjectId("57bebd4679c007364d8cc391")
+		_id: ObjectId("57c27b1d9069c2163b338378")
 	},
 	{
 		_id: 0,
@@ -347,17 +301,15 @@ db.posts.find(
 
 db.posts.update(
 	{
-		_id: ObjectId("57bebd4679c007364d8cc391"),
+		_id: ObjectId("57c27b1d9069c2163b338378"),
 	},
 	{
 		$push : { 
 			comments: {
 				comment_id: ObjectId(),
 				posted_at: new Date(),
-				posted_by: {
-					user_id: ObjectId("57bebcc39ff2d15a38d6a62c"),
-					display_name: "rahul007"
-				},
+				user_id: ObjectId("57bebcc39ff2d15a38d6a62c"),
+				display_name: "rahul007",
 				comment_text: "brilliant speech!"
 			}
 		}
@@ -373,15 +325,15 @@ db.posts.update(
 
 db.posts.find(
 	{
-		_id: ObjectId("57bebd4679c007364d8cc391"),
-		"comments.comment_id" : ObjectId("57c046d3a5a4cefee3000407")
+		_id: ObjectId("57c27b1d9069c2163b338378"),
+		"comments.comment_id" : ObjectId("57c27c269069c2163b338379")
 	}
 ).pretty()
 
 
 db.posts.update(
 	{ 
-		_id: ObjectId("57bebd4679c007364d8cc391")
+		_id: ObjectId("57c27b1d9069c2163b338378")
 	}, 
 	{ 
 		$pull: { 
@@ -404,8 +356,51 @@ db.posts.update(
 	}
 )
 
-db.posts.findOne(ObjectId("57bebd4679c007364d8cc391")).comments.length
+
+
+------find number of comments on a post-----------------------------------------
+
+db.posts.findOne(ObjectId("57c27b1d9069c2163b338378")).comments.length
+
+
+db.posts.aggregate([
+	{
+		$match: {
+			_id: ObjectId("57c27b1d9069c2163b338378"),
+			comments : {$exists:true}
+		}
+	},
+	{
+		$project: {
+			number_of_comments: { $size: "$comments" }
+		}
+	}
+])
+
+--------------------------------------------------------------------------------
+
+db.posts.aggregate([
+	{
+		$match:{
+			comments : { $exists:true }
+		}
+	},
+	{
+		$project: {
+
+			number_of_comments: { $size: "$comments" }
+		}
+	},
+	{
+		$match: {
+			number_of_comments : {$gt:3}
+		}
+	}
+])
+
 
 db.posts.find({
 	comments : {$exists:true}, $where:'this.comments.length>3'
 })
+
+
