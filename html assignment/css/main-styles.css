@@ -1,11 +1,16 @@
 
 body{
 	font-family: sans-serif;
+	margin: 0;
 }
 
-.main-container{
+ul,h1{
+	margin: 0;
+	padding: 0;
+}
+
+.container{
 	width: 1170px;
-	height: 500px;
 	margin: 0 auto;
 }
 
@@ -14,7 +19,7 @@ body{
 	padding: 7.5px 100px;
 }
 
-.logo-container{
+.logoWrap{
 	background-color: #ff8000;
 	height: 35px;
 	width: 140px;
@@ -25,11 +30,11 @@ body{
 	float: left;
 	list-style: none;
 	margin: 0;
+	margin-left: 40px;
 }
 
 .header ul li{
 	float: left;
-	margin-left: 50px;
 }
 
 .header ul li a{
@@ -37,37 +42,54 @@ body{
 	font-size: 18px;
 	line-height: 35px;
 	text-decoration: none;
+	padding: 0 25px;
+	font-weight: bold;
 }
 
-.clear-float{
+.clear{
 	clear: both;
+	float: none;
+	width: 0;
+	margin: 0;
 }
+
+.features .container .optionsContainer li.clear{
+	clear: both;
+	float: none;
+	width: 0;
+	margin: 0;
+}
+
 
 .banner{
 	background-color: #71C4EA;
 	height: 485px;
-	width: 100%;
 }
 
-.main-body{
+.features{
 	padding-top: 64px;
+	padding-bottom: 110px;
 	text-align: center;
 }
 
-.main-body h1{
+.features h1{
 	text-align: center;
 	color: #444444;
 }
 
-.options-container ul{
+.optionsContainer{
+	margin-top: 70px;
+}
+
+.optionsContainer ul{
 	margin: auto;
 }
 
-.main-body ul{
+.features ul{
 	list-style: none;
 }
 
-.main-body ul li{
+.features ul li{
 	text-align: center;
 	float: left;
 	margin-left: 37.5px;
@@ -75,13 +97,9 @@ body{
 	width: 200px;
 }
 
-.main-body ul li p{
+.features ul li p{
 	color: #888888;
 	font-size: 18px;
-}
-
-.options-container{
-	margin-top: 70px;
 }
 
 .preview{
@@ -96,31 +114,34 @@ body{
 .footer{
 	text-align: center;
 	background-color: #ECECEC;
-	margin-top: 110px;
-	margin-bottom: 10px;
 }
-.footer div ul{
+.footer ul{
 	list-style: none;
+	text-align: center;
 }
 
-.footer div ul li{
-	float: left;
-	margin-left: 10px;
-	margin-right: 10px;
+.footer ul li{
+	display: inline-block;
 }
 
-.footer div ul li a{
+.footer ul li a{
 	color: #FF8000;
 	font-size: 16px;
-	line-height: 20px;
 	line-height: 40px;
 	text-decoration: none;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-weight: bold;
 }
 
-.footer div ul li a:hover{
+.footer ul li a:hover{
 	color: #444444;
 }
 
 .center{
 	display: inline-block;
+}
+
+.footer ul li a.active {
+	color: black;
 }
