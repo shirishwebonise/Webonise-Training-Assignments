@@ -1,0 +1,129 @@
+
+body{
+	font-family: georgia;
+	font-size: 13px;
+	color: #222222;
+}
+
+h2{
+	margin: 0;
+}
+
+.searchForm{
+	margin: 0;
+}
+
+.header{
+	padding: 11.5px 0;
+}
+
+.logoWrap a{
+	display: inline-block;
+}
+
+.navigation{
+	background-color: #3355aa;
+	padding: 5px 0;
+}
+
+.navigation ul li a{
+	font-size: 15px;
+	color: white;
+	line-height: 34px;
+	border-right: 1px #004444 solid;
+	padding: 0 15px;
+}
+
+.navigation ul li:first-child a{
+	border-left: 1px #004444 solid;
+}
+
+.banner{
+	padding-top: 35px;
+	padding-bottom: 45px;
+}
+
+.bannerImageWrap{
+	box-shadow: 0 1px 2px grey;
+	padding: 10px;
+}
+
+.bannerImageWrap img.bannerImage{
+	width: 100%;
+}
+
+.bannerImageWrap p.imageCaption{
+	font-size: 14px;
+	text-align: center;
+	margin-top: 20px;
+}
+
+.bannerInfo h2{
+	font-size: 16px;
+	line-height: 40px;
+	border-bottom: 2px #FFAA00 solid;
+}
+
+.announcement p{
+	margin-bottom: 5px;
+}
+
+.bannerInfoSection{
+	padding-left: 20px;
+}
+
+.announcement{
+	margin-bottom: 20px;
+}
+
+.announcement span{
+	font-size: 10px
+}
+
+.announcementAuthor{
+	font-weight: bold;
+}
+
+.sectors{
+	padding-bottom: 75px;
+	background-color: #eeeeee;
+	border-top: lightgrey 1px solid;
+}
+.sectors h2{
+	font-size: 28px;
+	padding-top:25px;
+	padding-bottom:25px;
+	text-align: center;
+	font-weight: bold;
+}
+
+.sector{
+	text-align: center;
+	border-radius: 5px;
+	box-shadow: 0 1px 1px 1px lightgray;
+	padding: 10px;
+}
+
+.sector a{
+	font-size: 16px;
+	margin-bottom: 20px;
+}
+
+.sectorWrap{
+	padding: 0 15px;
+}
+
+.sectorImageWrap{
+	background-color: lightgray;
+	height: 250px;
+	margin-top: 10px;
+}
+
+.footer{
+	background-color: #333333;
+	padding-bottom: 35px;
+}
+
+.searchIcon{
+	vertical-align: text-top;
+}
