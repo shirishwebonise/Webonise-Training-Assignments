@@ -26,16 +26,30 @@ h2{
 	padding: 5px 0;
 }
 
+.navigation .container{
+	padding: 0;
+}
+
 .navigation ul li a{
 	font-size: 15px;
 	color: white;
 	line-height: 34px;
-	border-right: 1px #004444 solid;
+	border-right: 1px #004444 ridge;
 	padding: 0 15px;
 }
 
 .navigation ul li:first-child a{
 	border-left: 1px #004444 solid;
+}
+
+.searchWrap button{
+	background-color: #1865c5;
+	color: white;
+	margin-left: 10px;
+}
+
+.searchWrap input{
+	color: #1865c5;
 }
 
 .banner{
@@ -44,8 +58,9 @@ h2{
 }
 
 .bannerImageWrap{
-	box-shadow: 0 1px 2px grey;
+	box-shadow: 0 1px 5px 1px lightgrey;
 	padding: 10px;
+	border-radius: 5px;
 }
 
 .bannerImageWrap img.bannerImage{
@@ -70,6 +85,8 @@ h2{
 
 .bannerInfoSection{
 	padding-left: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 .announcement{
@@ -102,11 +119,11 @@ h2{
 	border-radius: 5px;
 	box-shadow: 0 1px 1px 1px lightgray;
 	padding: 10px;
+	background-color: white;
 }
 
-.sector a{
+.sector p{
 	font-size: 16px;
-	margin-bottom: 20px;
 }
 
 .sectorWrap{
@@ -116,7 +133,6 @@ h2{
 .sectorImageWrap{
 	background-color: lightgray;
 	height: 250px;
-	margin-top: 10px;
 }
 
 .footer{
@@ -126,4 +142,12 @@ h2{
 
 .searchIcon{
 	vertical-align: text-top;
+}
+
+.footer ul li a{
+	font-size: 14px;
+}
+
+.footer .navWrap{
+	border-bottom: 1px grey solid;
 }
