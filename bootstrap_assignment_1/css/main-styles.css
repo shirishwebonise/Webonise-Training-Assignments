@@ -137,17 +137,40 @@ h2{
 
 .footer{
 	background-color: #333333;
-	padding-bottom: 35px;
+	padding-bottom: 20px;
+	color: grey;
 }
 
 .searchIcon{
 	vertical-align: text-top;
 }
 
-.footer ul li a{
+.footer ul.navbar-left li a{
 	font-size: 14px;
+	color: grey;
+}
+
+.footer ul.navbar-left li:first-child a{
+	padding-left: 0
+}
+
+.footer ul.navbar-left li.active a{
+	color: lightgrey;
 }
 
 .footer .navWrap{
-	border-bottom: 1px grey solid;
+	border-bottom: 1px #3d3d3d solid;
+}
+
+.footer .container{
+	padding: 0;
+}
+
+.footer ul.navbar-right li a{
+	font-size: 11px;
+	color: grey;
+}
+.footer .copyRightTextWrap span{
+	font-size: 11px;
+	line-height: 41px
 }
