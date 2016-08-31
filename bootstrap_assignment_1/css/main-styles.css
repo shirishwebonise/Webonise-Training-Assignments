@@ -11,7 +11,13 @@ h2{
 
 .searchForm{
 	margin: 0;
+	padding: 0;
 }
+
+.searchForm *{
+	height: 30px;
+}
+
 
 .header{
 	padding: 11.5px 0;
@@ -26,6 +32,7 @@ h2{
 	padding: 5px 0;
 }
 
+
 .navigation .container{
 	padding: 0;
 }
@@ -37,7 +44,7 @@ h2{
 .navigation ul li a{
 	font-size: 15px;
 	color: white;
-	line-height: 34px;
+	line-height: 30px;
 	border-right: 1px #004444 ridge;
 	padding: 0 15px;
 }
@@ -54,12 +61,15 @@ h2{
 
 .searchWrap input{
 	color: #1865c5;
+	margin: 0;
 }
 
 .banner{
 	padding-top: 35px;
 	padding-bottom: 45px;
 }
+
+
 
 .bannerImageWrap{
 	box-shadow: 0 1px 5px 1px lightgrey;
@@ -159,10 +169,6 @@ h2{
 	background-color: #333333;
 	padding-bottom: 20px;
 	color: grey;
-}
-
-.searchIcon{
-	vertical-align: text-top;
 }
 
 .footer ul.navbar-left li a{
