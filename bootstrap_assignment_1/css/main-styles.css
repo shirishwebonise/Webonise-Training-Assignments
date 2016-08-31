@@ -30,6 +30,10 @@ h2{
 	padding: 0;
 }
 
+.navigation ul li:hover{
+	background-color: inherit;
+}
+
 .navigation ul li a{
 	font-size: 15px;
 	color: white;
@@ -79,14 +83,28 @@ h2{
 	border-bottom: 2px #FFAA00 solid;
 }
 
+.bannerInfo p{
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
 .announcement p{
 	margin-bottom: 5px;
 }
 
 .bannerInfoSection{
-	padding-left: 20px;
+	padding-left: 30px;
+	padding-right: 0;
 	padding-top: 10px;
 	padding-bottom: 10px;
+}
+.bannerInfoSection h2{
+	margin-top: 1em;
+}
+
+.bannerInfoSection .viewMore{
+	font-size: 16px;
+	color: #0055DD;
 }
 
 .announcement{
@@ -124,6 +142,8 @@ h2{
 
 .sector p{
 	font-size: 16px;
+	padding: 0 36px;
+	color: #0055DD;
 }
 
 .sectorWrap{
