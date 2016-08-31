@@ -37,8 +37,8 @@ h2{
 	padding: 0;
 }
 
-.navigation ul li:hover{
-	background-color: inherit;
+.navigation ul li a:hover{
+	background: none;
 }
 
 .navigation ul li a{
@@ -77,25 +77,29 @@ h2{
 	border-radius: 5px;
 }
 
-.bannerImageWrap img.bannerImage{
-	width: 100%;
-}
-
 .bannerImageWrap p.imageCaption{
 	font-size: 14px;
 	text-align: center;
 	margin-top: 20px;
+	font-style: italic;
 }
 
 .bannerInfo h2{
 	font-size: 16px;
 	line-height: 40px;
 	border-bottom: 2px #FFAA00 solid;
+	font-weight: bold;
+	color: #0055DD;
 }
 
 .bannerInfo p{
 	margin-top: 1em;
-	margin-bottom: 1em;
+	margin-bottom: 0;
+}
+
+.bannerInfo ul{
+	list-style: none;
+	padding: 0;
 }
 
 .announcement p{
@@ -103,9 +107,8 @@ h2{
 }
 
 .bannerInfoSection{
-	padding-left: 30px;
+	padding-left: 10px;
 	padding-right: 0;
-	padding-top: 10px;
 	padding-bottom: 10px;
 }
 .bannerInfoSection h2{
@@ -151,13 +154,9 @@ h2{
 }
 
 .sector p{
+	height: 44px;
 	font-size: 16px;
-	padding: 0 36px;
 	color: #0055DD;
-}
-
-.sectorWrap{
-	padding: 0 15px;
 }
 
 .sectorImageWrap{
@@ -167,22 +166,14 @@ h2{
 
 .footer{
 	background-color: #333333;
-	padding-bottom: 20px;
+	padding-bottom: 35px;
 	color: grey;
 }
 
-.footer ul.navbar-left li a{
-	font-size: 14px;
-	color: grey;
+.footer .navigationWrap{
+	padding: 10px 0;
 }
 
-.footer ul.navbar-left li:first-child a{
-	padding-left: 0
-}
-
-.footer ul.navbar-left li.active a{
-	color: lightgrey;
-}
 
 .footer .navWrap{
 	border-bottom: 1px #3d3d3d solid;
@@ -192,11 +183,60 @@ h2{
 	padding: 0;
 }
 
-.footer ul.navbar-right li a{
+.footer ul.rightNavigation li a{
 	font-size: 11px;
 	color: grey;
 }
+.footer ul.rightNavigation li:first-child a{
+	border-left: 0;
+}
+
 .footer .copyRightTextWrap span{
 	font-size: 11px;
 	line-height: 41px
+}
+
+.footer ul{
+	padding: 0;
+	list-style: none;
+	margin: 0;
+}
+
+.footer ul li{
+	float: left;
+}
+
+.footer ul li a{
+	padding-left: 10px;
+	padding-right: 10px;
+	border-left: 1px solid grey;
+	color: grey;
+	font-size: 14px;
+}
+
+ul.leftNavigation li.active a{
+	color: lightgrey;
+}
+
+.footer ul.leftNavigation li:first-child a{
+	border-left: 0;
+	padding-left: 0;
+}
+
+ul.leftNavigation li.clear{
+	clear: both;
+	float: none;
+}
+
+.footer .copyRightTextWrap{
+	padding:0;
+}
+
+.viewMore a{
+	font-style: italic;
+	line-height: 30px;
+}
+
+.viewMore a:hover{
+	cursor: pointer;
 }
