@@ -77,7 +77,7 @@ h2{
 	border-radius: 5px;
 }
 
-.bannerImageWrap p.imageCaption{
+.banner .imageCaption{
 	font-size: 14px;
 	text-align: center;
 	margin-top: 20px;
@@ -94,7 +94,23 @@ h2{
 
 .bannerInfo p{
 	margin-top: 1em;
-	margin-bottom: 0;
+}
+
+.bannerInfo p a{
+	color: black;
+}
+
+.bannerInfo span.metaInfo{
+	font-size: 10px;
+}
+
+.bannerInfo .metaInfo a{
+	text-decoration: none;
+	color: inherit;
+}
+
+.bannerInfo .metaInfo a:hover{
+	cursor: pointer;
 }
 
 .bannerInfo ul{
@@ -107,8 +123,8 @@ h2{
 }
 
 .bannerInfoSection{
-	padding-left: 10px;
-	padding-right: 0;
+	padding-left: 5px;
+	padding-right: 5px;
 	padding-bottom: 10px;
 }
 .bannerInfoSection h2{
@@ -132,17 +148,20 @@ h2{
 	font-weight: bold;
 }
 
+
+
 .sectors{
+	padding-top: 25px;
 	padding-bottom: 75px;
 	background-color: #eeeeee;
 	border-top: lightgrey 1px solid;
+
 }
 .sectors h2{
 	font-size: 28px;
-	padding-top:25px;
-	padding-bottom:25px;
 	text-align: center;
 	font-weight: bold;
+	margin-bottom: 25px;
 }
 
 .sector{
@@ -154,7 +173,7 @@ h2{
 }
 
 .sector p{
-	height: 44px;
+	min-height: 44px;
 	font-size: 16px;
 	color: #0055DD;
 }
@@ -191,9 +210,9 @@ h2{
 	border-left: 0;
 }
 
-.footer .copyRightTextWrap span{
+.footer .copyRightTextWrap{
 	font-size: 11px;
-	line-height: 41px
+	margin-top: 15px;
 }
 
 .footer ul{
