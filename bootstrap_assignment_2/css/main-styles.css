@@ -1,0 +1,208 @@
+.header{
+	border-bottom: 1px solid lightgrey;
+}
+
+.header ul{
+	list-style: none;
+	padding:0;
+	margin:0;
+}
+.header ul li{
+	cursor: pointer;
+	float: left;
+	border-left: 1px solid lightgrey;
+	height: 53px;
+}
+
+.userAccountInfo{
+	padding: 8px 40px 0 0;
+}
+
+.userAccountInfo p{
+	padding: 0;
+	margin:0;
+}
+
+.customerName{
+	font-size: 14px;
+	font-weight: bold;
+	color: #222;
+}
+.customerEmail{
+	font-size: 11px;
+	color: #666;
+}
+
+.imageWrap{
+	padding: 16px; 
+}
+
+.imageWrap a{
+	display: block;
+}
+
+.logoWrap{
+	padding: 10px 16px 0 16px;
+}
+
+.nameInputWrap{
+	padding: 13px;
+}
+
+.nameInputWrap button{
+	margin:0;
+	background-color: #1166ee;
+	border-radius: 20px;
+	color: white;
+	border: 0;
+	font-size: 12px;
+	padding: 5px 10px;
+	outline: 0;
+}
+
+.mainContent{
+	background-color: #fcfcfc;
+	padding-top: 30px;
+}
+
+.allCustomers{
+	font-size: 18px;
+	color: #333;
+}
+.btnAddAnother{
+	color: #1166ee;
+	size: 14px;
+	border-color: #1166ee;
+	border-radius: 0;
+	background-color: white;
+	margin-left: 30px;
+}
+
+.itemBox{
+	border: 1px lightgrey solid;
+	margin-bottom: 30px;
+}
+
+.companyLogoImageWrap{
+	padding: 10px;
+	border-bottom: 1px lightgrey solid;
+	height: 90px;
+	text-align: center;
+}
+.itemBox .companyLogoImageWrap img{
+	margin: 0 auto;
+	max-height: 70px;
+	vertical-align: middle;
+ 	display: inline-block;
+}
+
+.itemBox .itemInfo{
+	padding: 20px 15px;
+}
+
+.itemInfo h4{
+	margin: 0;
+	margin-bottom: 5px;
+	color: #333;
+}
+.itemInfo .lastUpdated{
+	margin: 0;
+	margin-bottom: 9px;
+	color: #aaaaaa;
+	font-size: 14px
+}
+
+.itemInfo .ticketsTitle{
+	margin: 0;
+	font-size: 16px;
+	color: #1166ee;
+}
+
+.itemInfo .noOfTickets{
+	font-size: 48px;
+	color: #1166ee;
+}
+
+.itemInfo .severity1Title{
+	font-size: 14px;
+	color: #ff0000;
+}
+
+.itemInfo .severity1{
+	font-size: 24px;
+	color: #333333;
+}
+
+.itemInfo .severity2Title{
+	font-size: 14px;
+	color: #333333;
+}
+
+.itemInfo .severity2{
+	font-size: 24px;
+	color: #1166ee;
+}
+
+.itemInfo .assetsTitle{
+	font-size: 16px;
+
+}
+
+.itemInfo .alertsTitle{
+	font-size: 16px;
+	
+}
+
+.itemInfo .noOfAssets{
+	font-size: 30px;
+	color: #1166ee;
+}
+
+.itemInfo .noOfAlerts{
+	font-size: 30px;
+	color: #1166ee;
+}
+
+.viewDetails{
+	text-decoration: underline;
+	margin: 2px 0;
+}
+
+.footer{
+	padding: 20px 0;
+}
+
+.footer li{
+	display: inline-block;
+	list-style: none;
+}
+.footer ul{
+	text-align: center;
+	margin: 0;
+}
+
+.footer li a{
+	font-size: 12px;
+	color: #666;
+	padding: 0 10px;
+	border-left: 1px solid #666;
+}
+
+.footer li:first-child a{
+	border-left: none;
+}
+
+.itemsContainer{
+	padding: 20px 0;
+}
+
+.companyLogoImageWrap:before {    /* create a full-height inline block pseudo=element */
+    content: ' ';
+    display: inline-block;
+    vertical-align: middle;  /* vertical alignment of the inline element */
+    height: 100%;
+}
+
+.starWrap{
+	padding: 5px;
+}
