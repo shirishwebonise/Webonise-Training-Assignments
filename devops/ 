@@ -1,0 +1,677 @@
+The Geek Stuff 
+ 
+Home
+Free eBook
+Start Here
+Contact
+About
+HowTo: The Ultimate Logrotate Command Tutorial with 10 Examples
+by BALAKRISHNAN MARIYAPPAN on JULY 14, 2010
+ 
+ Managing log files effectively is an essential task for Linux sysadmin.
+
+In this article, let us discuss how to perform following log file operations using UNIX logrotate utility.
+
+Rotate the log file when file size reaches a specific size
+Continue to write the log information to the newly created file after rotating the old log file
+Compress the rotated log files
+Specify compression option for the rotated log files
+Rotate the old log files with the date in the filename
+Execute custom shell scripts immediately after log rotation
+Remove older rotated log files
+
+1. Logrotate Configuration files
+
+Following are the key files that you should be aware of for logrotate to work properly.
+
+/usr/sbin/logrotate – The logrotate command itself.
+
+/etc/cron.daily/logrotate – This shell script executes the logrotate command everyday.
+
+$ cat /etc/cron.daily/logrotate
+#!/bin/sh
+
+/usr/sbin/logrotate /etc/logrotate.conf
+EXITVALUE=$?
+if [ $EXITVALUE != 0 ]; then
+    /usr/bin/logger -t logrotate "ALERT exited abnormally with [$EXITVALUE]"
+fi
+exit 0
+/etc/logrotate.conf – Log rotation configuration for all the log files are specified in this file.
+
+
+ 
+$ cat /etc/logrotate.conf
+weekly
+rotate 4
+create
+include /etc/logrotate.d
+/var/log/wtmp {
+    monthly
+    minsize 1M
+    create 0664 root utmp
+    rotate 1
+}
+/etc/logrotate.d – When individual packages are installed on the system, they drop the log rotation configuration information in this directory. For example, yum log rotate configuration information is shown below.
+
+$ cat /etc/logrotate.d/yum
+/var/log/yum.log {
+    missingok
+    notifempty
+    size 30k
+    yearly
+    create 0600 root root
+}
+2. Logrotate size option: Rotate the log file when file size reaches a specific limit
+
+If you want to rotate a log file (for example, /tmp/output.log) for every 1KB, create the logrotate.conf as shown below.
+
+$ cat logrotate.conf
+/tmp/output.log {
+        size 1k
+        create 700 bala bala
+        rotate 4
+}
+This logrotate configuration has following three options:
+
+size 1k – logrotate runs only if the filesize is equal to (or greater than) this size.
+create – rotate the original file and create the new file with specified permission, user and group.
+rotate – limits the number of log file rotation. So, this would keep only the recent 4 rotated log files.
+Before the logrotation, following is the size of the output.log:
+
+$ ls -l /tmp/output.log
+-rw-r--r-- 1 bala bala 25868 2010-06-09 21:19 /tmp/output.log
+Now, run the logrotate command as shown below. Option -s specifies the filename to write the logrotate status.
+
+$ logrotate -s /var/log/logstatus logrotate.conf
+Note : whenever you need of log rotation for some files, prepare the logrotate configuration and run the logroate command manually.
+After the logrotation, following is the size of the output.log:
+
+$ ls -l /tmp/output*
+-rw-r--r--  1 bala bala 25868 2010-06-09 21:20 output.log.1
+-rwx------ 1 bala bala        0 2010-06-09 21:20 output.log
+Eventually this will keep following setup of rotated log files.
+
+output.log.4.
+output.log.3
+output.log.2
+output.log.1
+output.log
+Please remember that after the log rotation, the log file corresponds to the service would still point to rotated file (output.log.1) and keeps on writing in it. You can use the above method, if you want to rotate the apache access_log or error_log every 5 MB.
+
+Ideally, you should modify the /etc/logrotate.conf to specify the logrotate information for a specific log file.
+
+Also, if you are having huge log files, you can use: 10 Awesome Examples for Viewing Huge Log Files in Unix
+
+3. Logrotate copytruncate option: Continue to write the log information in the newly created file after rotating the old log file.
+
+$ cat logrotate.conf
+/tmp/output.log {
+         size 1k
+         copytruncate
+         rotate 4
+}
+copytruncate instruct logrotate to creates the copy of the original file (i.e rotate the original log file) and truncates the original file to zero byte size. This helps the respective service that belongs to that log file can write to the proper file.
+
+While manipulating log files, you might find the sed substitute, sed delete tips helpful.
+
+4. Logrotate compress option: Compress the rotated log files
+
+If you use the compress option as shown below, the rotated files will be compressed with gzip utility.
+
+$ cat logrotate.conf
+/tmp/output.log {
+        size 1k
+        copytruncate
+        create 700 bala bala
+        rotate 4
+        compress
+}
+Output of compressed log file:
+
+$ ls /tmp/output*
+output.log.1.gz output.log
+5. Logrotate dateext option: Rotate the old log file with date in the log filename
+
+$ cat logrotate.conf
+/tmp/output.log {
+        size 1k
+        copytruncate
+        create 700 bala bala
+        dateext
+        rotate 4
+        compress
+}
+After the above configuration, you’ll notice the date in the rotated log file as shown below.
+
+$ ls -lrt /tmp/output*
+-rw-r--r--  1 bala bala 8980 2010-06-09 22:10 output.log-20100609.gz
+-rwxrwxrwx 1 bala bala     0 2010-06-09 22:11 output.log
+This would work only once in a day. Because when it tries to rotate next time on the same day, earlier rotated file will be having the same filename. So, the logrotate wont be successful after the first run on the same day.
+
+Typically you might use tail -f to view the output of the log file in realtime. You can even combine multiple tail -f output and display it on single terminal.
+
+6. Logrotate monthly, daily, weekly option: Rotate the log file weekly/daily/monthly
+
+For doing the rotation monthly once,
+
+$ cat logrotate.conf
+/tmp/output.log {
+        monthly
+        copytruncate
+        rotate 4
+        compress
+}
+Add the weekly keyword as shown below for weekly log rotation.
+
+$ cat logrotate.conf
+/tmp/output.log {
+        weekly
+        copytruncate
+        rotate 4
+        compress
+}
+Add the daily keyword as shown below for every day log rotation. You can also rotate logs hourly.
+
+$ cat logrotate.conf
+/tmp/output.log {
+        daily
+        copytruncate
+        rotate 4
+        compress
+}
+7. Logrotate postrotate endscript option: Run custom shell scripts immediately after log rotation
+
+Logrotate allows you to run your own custom shell scripts after it completes the log file rotation. The following configuration indicates that it will execute myscript.sh after the logrotation.
+
+$ cat logrotate.conf
+/tmp/output.log {
+        size 1k
+        copytruncate
+        rotate 4
+        compress
+        postrotate
+               /home/bala/myscript.sh
+        endscript
+}
+8. Logrotate maxage option: Remove older rotated log files
+
+Logrotate automatically removes the rotated files after a specific number of days.  The following example indicates that the rotated log files would be removed after 100 days.
+
+$ cat logrotate.conf
+/tmp/output.log {
+        size 1k
+        copytruncate
+        rotate 4
+        compress
+        maxage 100
+}
+9. Logrotate missingok option: Dont return error if the log file is missing
+
+You can ignore the error message when the actual file is not available by using this option as shown below.
+
+$ cat logrotate.conf
+/tmp/output.log {
+        size 1k
+        copytruncate
+        rotate 4
+        compress
+        missingok
+}
+10. Logrotate compresscmd and compressext option: Sspecify compression command for the log file rotation
+
+$ cat logrotate.conf
+/tmp/output.log {
+        size 1k
+        copytruncate
+        create
+        compress
+        compresscmd /bin/bzip2
+        compressext .bz2
+        rotate 4
+}
+Following compression options are specified above:
+
+compress – Indicates that compression should be done.
+compresscmd – Specify what type of compression command should be used. For example: /bin/bzip2
+compressext – Specify the extension on the rotated log file. Without this option, the rotated file would have the default extension as .gz. So, if you use bzip2 compressioncmd, specify the extension as .bz2 as shown in the above example.
+ 
+> Add your comment
+If you enjoyed this article, you might also like..
+
+50 Linux Sysadmin Tutorials
+50 Most Frequently Used Linux Commands (With Examples)
+Top 25 Best Linux Performance Monitoring and Debugging Tools
+Mommy, I found it! – 15 Practical Linux Find Command Examples
+Linux 101 Hacks 2nd Edition eBook Linux 101 Hacks Book
+Awk Introduction – 7 Awk Print Examples
+Advanced Sed Substitution Examples
+8 Essential Vim Editor Navigation Fundamentals
+25 Most Frequently Used Linux IPTables Rules Examples
+Turbocharge PuTTY with 12 Powerful Add-Ons
+
+Bash 101 Hacks Book	Sed and Awk 101 Hacks Book	Nagios Core 3 Book	Vim 101 Hacks Book
+
+Tagged as: Apache Logrotate, CentOS Logrotate, Debian Logrotate, FreeBSD Logrotate, Logrotate Conf, Logrotate Extension, Logrotate for Windows, Logrotate Scripts, Logrotate Ubuntu, Syslog Logrotate, Syslog rotate
+
+{ 35 comments… add one }
+
+Alawishis November 29, 2010, 6:20 pm
+If I’m not mistaken the permissions in your example would be the result of “create 644” not “create 700”. 700 would produce -rwx—— not -rw-r–r– as shown, that is unless I’ve missed something.
+
+LINK
+rf December 15, 2010, 2:52 pm
+Any ideas on how to use logrotate when the file name is dynamic, example:
+messages_03956-20101208153330Z-345df1e000.log
+
+Where “20101208153330Z” is the date, but I think the other numbers are related to PIDs.
+
+Thanks.
+
+LINK
+Bruce December 19, 2010, 9:12 am
+rf – assuming the numbers are the dynamic part of the name, simply replace that portion with an *. For instance, “messages_*.log”
+
+LINK
+Andy Alt January 27, 2011, 12:39 pm
+And a user doesn’t have to be root to use logrotate: this is from the logrotate man page:
+
+-s, –state
+Tells logrotate to use an alternate state file. This is useful
+if logrotate is being run as a different user for various sets
+of log files. The default state file is /var/lib/logrotate.sta-
+tus.
+
+One could use “find . -name *.log” in his or her $HOME directory and then add them to their own logrotate scripts in their own $HOME directory.
+
+LINK
+Kjetil Pettersson February 21, 2011, 5:17 pm
+Thanks. Just what I was looking for :)
+
+LINK
+jalal hajigholamali August 21, 2011, 10:42 am
+thanks a lot
+
+LINK
+Tim August 23, 2011, 8:25 am
+This article does cover FreeBSD log rotation
+
+LINK
+Arvind September 20, 2011, 11:24 pm
+Excellent, it works like a charm.
+
+LINK
+Bernd Adamowicz December 22, 2011, 8:07 am
+Good quick start into logrotate for me. Thanks a lot!
+
+LINK
+jaxxm January 31, 2012, 3:49 am
+As usual the easiest and most comprehensive tutorial on the subject. Thank you very much.
+
+LINK
+praveen April 20, 2012, 2:40 am
+Hi:
+
+should postrotate need to be used for stopping and running the application ? or does logrotate process the new log file after rotation ?
+
+LINK
+gokulnath May 6, 2012, 10:32 pm
+Hello,
+Have anyone tried houly log rotation, from what I heard the log rotation is done by a script in cron.daily and can’t be done for lesser frequencies.
+Any comments ?
+
+LINK
+Alexander June 4, 2012, 1:34 am
+And what will be if I specify both size and daily (or another period) options?
+I would like that logrotate rotate files immediatelt after they reach specified size, but, if not, at the specified period of time.
+
+LINK
+Xitron June 4, 2012, 7:26 am
+gokulnath: you could probably put the script into /etc/cron.hourly to get your hourly.
+
+LINK
+Lorraine Tighe October 12, 2012, 8:10 am
+I need to run a command every time the logrotate is attempted regardless of whether anything was rotated. Lastaction, firstaction, postrotate and prerotate only appear to work if at least one log file was rotated. Any ideas?
+
+LINK
+Tony Archuleta December 14, 2012, 7:52 pm
+Why do you need the command to run when logrotate runs? You should just be able to crontab the command with crontab -e…
+
+LINK
+Ram January 29, 2013, 2:25 am
+What is the difference between
+CREATE 644 & 700
+and what is the use of it
+
+LINK
+ssm February 13, 2013, 4:56 am
+hi, thanks for the valuable info posted here about log rotation,
+i was just interested to know is their any third party tool that handles all this
+i mean my requirement is
+
+archive(compress) the log files and then delete the old log files
+and this should be done weekly i.e archiving and deleting of log files
+so is their any third party tool for log rotation that makes task lil bit easy other then linux logrotate command ?
+thanks
+
+LINK
+info May 1, 2013, 4:04 pm
+how to setup logrotate for a multi year daily compress of messages /secure/cron ?
+/tmp/output.log {
+yearly
+monthly
+daily
+copytruncate
+create 700 bala bala
+rotate 4
+compress
+dateext
+
+LINK
+Nimal June 2, 2013, 11:53 pm
+hi, using “create ..” command along with “copytruncate” will not have any effect. This is because copytruncate itself creates a copy of the original log file before truncatnig that original file to zero size (according to MAN page). my ref is this.
+
+LINK
+stp June 24, 2013, 8:42 am
+hi
+quick question
+I have a centralized log server, where I need to keep ALL logs, would the following work :
+in /etc/logrotate.conf I have :
+daily
+rotate 4
+create
+dateext
+compress
+and in /etc/logrotate.d/syslog:
+/var/log/messages
+/var/log/secure
+/var/log/spooler
+{
+yearly
+monthly
+daily
+sharedscripts
+postrotate
+/bin/kill -HUP `cat /var/run/syslogd.pid 2> /dev/null` 2> /dev/null || true
+endscript
+}
+
+Thanks in advance !
+
+LINK
+Michael October 31, 2013, 12:44 pm
+Hi,
+
+Many thanks for this. I found it really useful and it had more or less everything. One thing I found out with section 3 involving “copytruncate” is that the original file went back to its original size for me. This is because the process that was writing to the log file was oblivious to any logrotate and just continued at the last offset. This is also described here.
+
+My solution was to turn off logging in this case.
+
+LINK
+Michael October 31, 2013, 12:46 pm
+I should add of course that the log file went back to its original size only in certain circumstances and that ‘copytruncate’ usually does the trick very well indeed.
+
+LINK
+Ryan January 10, 2014, 10:10 am
+I don’t have logrotate on my FreeBSD box. (Noob alert) How do I install this so that I can set up what you are talking about. Further, what I’m really interested in to use this for FreeRADIUS, and then export to a jumpbox elsewhere, where someone can ftp the particular log files. Is that possible?
+
+LINK
+aix February 1, 2014, 8:10 pm
+Ryan – My friend, you have a tall hill to climb!
+assuming terminal as root:
+cd /usr/ports/sysutils/logrotate
+make install
+make clean
+cd /usr/local/etc/
+nano logrotate.conf
+the article basically picks up from here.
+
+LINK
+Ryan February 5, 2014, 1:10 pm
+Hi Aix,
+
+Thanks. when I tried to to the make install, etc I get:
+
+serv01# make clean
+===> Cleaning for logrotate-3.8.7
+serv01# make depend
+serv01# make install clean
+===> Fetching all distfiles required by logrotate-3.8.7 for building
+===> Extracting for logrotate-3.8.7
+=> SHA256 Checksum OK for logrotate-3.8.7.tar.gz.
+===> Patching for logrotate-3.8.7
+===> Applying FreeBSD patches for logrotate-3.8.7
+===> logrotate-3.8.7 depends on executable: gmake – found
+===> logrotate-3.8.7 depends on shared library: libpopt.so – found
+===> Configuring for logrotate-3.8.7
+===> Building for logrotate-3.8.7
+cc -E -Wall -D_GNU_SOURCE -DFreeBSD -DVERSION=\”3.8.7\” -I/usr/local/include -I/usr/local/include -g -M logrotate.c log.c config.c basenames.c > .depend
+cc -Wall -D_GNU_SOURCE -DFreeBSD -DVERSION=\”3.8.7\” -I/usr/local/include -I/usr/local/include -g -c -o logrotate.o logrotate.c
+cc -Wall -D_GNU_SOURCE -DFreeBSD -DVERSION=\”3.8.7\” -I/usr/local/include -I/usr/local/include -g -c -o log.o log.c
+cc -Wall -D_GNU_SOURCE -DFreeBSD -DVERSION=\”3.8.7\” -I/usr/local/include -I/usr/local/include -g -c -o config.o config.c
+cc -Wall -D_GNU_SOURCE -DFreeBSD -DVERSION=\”3.8.7\” -I/usr/local/include -I/usr/local/include -g -c -o basenames.o basenames.c
+echo “0” > ./test/test.ACL ;
+echo “0” > ./test/test.SELINUX ;
+cc -g logrotate.o log.o config.o basenames.o -lpopt -L/usr/local/lib -L/usr/local/lib -o logrotate
+===> Staging for logrotate-3.8.7
+===> Generating temporary packing list
+[ -d /usr/local/sbin ] || mkdir -p /usr/local/sbin
+[ -d /usr/local/man ] || mkdir -p /usr/local/man
+[ -d /usr/local/man/man8 ] || mkdir -p /usr/local/man/man8
+[ -d /usr/local/man/man5 ] || mkdir -p /usr/local/man/man5
+if [ “FreeBSD” = HP-UX ]; then \
+logrotate /usr/local/sbin 0755 bin bin; \
+logrotate.8 /usr/local/man/man`echo logrotate.8 | sed “s/.*\.//”` 0644 bin bin; \
+logrotate.conf.5 /usr/local/man/man`echo logrotate.conf.5 | sed “s/.*\.//”` 0644 bin bin; \
+else if [ “FreeBSD” = FreeBSD ]; then \
+install -s -o root -g wheel -m 555 logrotate /usr/ports/sysutils/logrotate/work/stage/usr/local/sbin; \
+install -o root -g wheel -m 444 logrotate.8 /usr/ports/sysutils/logrotate/work/stage/usr/local/man/man`echo logrotate.8 | sed “s/.*\.//”`/logrotate.8; \
+install -o root -g wheel -m 444 logrotate.conf.5 /usr/ports/sysutils/logrotate/work/stage/usr/local/man/man`echo logrotate.conf.5 | sed “s/.*\.//”`/logrotate.conf.5; \
+else \
+-m 755 logrotate /usr/local/sbin; \
+-m 644 logrotate.8 /usr/local/man/man`echo logrotate.8 | sed “s/.*\.//”`/logrotate.8; \
+-m 644 logrotate.conf.5 /usr/local/man/man`echo logrotate.conf.5 | sed “s/.*\.//”`/logrotate.conf.5; \
+fi; fi
+====> Compressing man pages (compress-man)
+===> Building package for logrotate-3.8.7
+Creating package /usr/ports/sysutils/logrotate/work/logrotate-3.8.7.tbz
+Registering depends: popt-1.16 gettext-0.18.1.1 libiconv-1.13.1_1.
+Creating bzip’d tar ball in ‘/usr/ports/sysutils/logrotate/work/logrotate-3.8.7.tbz’
+===> Installing for logrotate-3.8.7
+===> Checking if sysutils/logrotate already installed
+===> logrotate-3.8.7 is already installed
+You may wish to “make deinstall” and install this port again
+by “make reinstall” to upgrade it properly.
+If you really wish to overwrite the old port of sysutils/logrotate
+without deleting it first, set the variable “FORCE_PKG_REGISTER”
+in your environment or the “make install” command line.
+*** Error code 1
+
+But since it says that it is already installed, then just “picking up from here” as you say SHOULD work? right? Thanks in advance for pointing out some obvious stuff.
+
+LINK
+Harsh May 19, 2014, 4:25 am
+In postrotate block, would it be possible to write a ruby script instead of a shell script? Also, intead of 1 ,2 ,3 as the suffixes to the generated files I want to rename them with the time stamp and also I want to move all these files to a different directory.
+What is the best way to have these functionality?
+
+LINK
+Ramki January 29, 2015, 12:57 am
+HI,
+
+Can i use $HOSTNAME in the my log rotation configuration file , will it work without any problem ?
+
+/d/xy/sssnr/$HOSTNAME/trace/ssnr.log {
+rotate 5
+compress
+size 10M
+missingok
+create 0600 root root
+}
+
+LINK
+Junaid Ali January 29, 2015, 5:20 am
+Thanks Ramesh
+
+LINK
+Rajkumar Yadav April 23, 2015, 5:30 am
+Hi,
+
+Can anybody help me to configure log rotation. I want to rotate /var/log/message every two minutes and same be compressed
+Please provide proper command and file name.
+
+LINK
+baskar August 19, 2015, 12:10 am
+The log file rotated using the script of logrotate.conf.After rotating the new file the old file not truncated. please any one help this issue.
+Thanks
+
+LINK
+Severus Snape December 16, 2015, 11:06 am
+Hi Rajkumar.
+
+Your answer is the following:
+
+/etc/logrotate.conf:
+compress
+biminutely
+
+then run
+expelliarmus /etc/logrotate.conf > harrypotter.txt
+make && make clean
+alias avadakedavra=’rm -rf wizards/’
+avadakedavra
+logout
+
+Let me know how this goes.
+
+LINK
+lamhaison January 5, 2016, 9:03 pm
+Very helpful. Your article help me resolve my problem(After I run command line logrotate, my service do not write log to server). I using copytruncate option to resole that. Thank you so much
+
+LINK
+c balraj January 29, 2016, 8:02 am
+error:
+logrotate: ALERT exited abnormally with [1]
+how to solve this
+
+LINK
+Hak June 24, 2016, 3:12 pm
+thank you so much!
+
+LINK
+Leave a Comment
+
+Name
+
+
+Email
+
+
+Website
+
+
+Comment
+
+
+
+
+
+Notify me of followup comments via e-mail
+Next post: 7 Essential emacs Editor Navigation Fundamentals
+Previous post: 5 Bash Case Statement Examples
+RSS  |  Email  |  Twitter  |  Facebook  |  Google+ 
+
+  
+
+
+  
+EBOOKS
+
+Linux 101 Hacks Book Linux 101 Hacks 2nd Edition eBook - Practical Examples to Build a Strong Foundation in Linux
+Bash 101 Hacks eBook - Take Control of Your Bash Command Line and Shell Scripting
+Sed and Awk 101 Hacks eBook - Enhance Your UNIX / Linux Life with Sed and Awk
+Vim 101 Hacks eBook - Practical Examples for Becoming Fast and Productive in Vim Editor
+Nagios Core 3 eBook - Monitor Everything, Be Proactive, and Sleep Well
+
+POPULAR POSTS
+
+12 Amazing and Essential Linux Books To Enrich Your Brain and Library
+50 UNIX / Linux Sysadmin Tutorials
+50 Most Frequently Used UNIX / Linux Commands (With Examples)
+How To Be Productive and Get Things Done Using GTD
+30 Things To Do When you are Bored and have a Computer
+Linux Directory Structure (File System Structure) Explained with Examples
+Linux Crontab: 15 Awesome Cron Job Examples
+Get a Grip on the Grep! – 15 Practical Grep Command Examples
+Unix LS Command: 15 Practical Examples
+15 Examples To Master Linux Command Line History
+Top 10 Open Source Bug Tracking System
+Vi and Vim Macro Tutorial: How To Record and Play
+Mommy, I found it! -- 15 Practical Linux Find Command Examples
+15 Awesome Gmail Tips and Tricks
+15 Awesome Google Search Tips and Tricks
+RAID 0, RAID 1, RAID 5, RAID 10 Explained with Diagrams
+Can You Top This? 15 Practical Linux Top Command Examples
+Top 5 Best System Monitoring Tools
+Top 5 Best Linux OS Distributions
+How To Monitor Remote Linux Host using Nagios 3.0
+Awk Introduction Tutorial – 7 Awk Print Examples
+How to Backup Linux? 15 rsync Command Examples
+The Ultimate Wget Download Guide With 15 Awesome Examples
+Top 5 Best Linux Text Editors
+Packet Analyzer: 15 TCPDUMP Command Examples
+The Ultimate Bash Array Tutorial with 15 Examples
+3 Steps to Perform SSH Login Without Password Using ssh-keygen & ssh-copy-id
+Unix Sed Tutorial: Advanced Sed Substitution Examples
+UNIX / Linux: 10 Netstat Command Examples
+The Ultimate Guide for Creating Strong Passwords
+6 Steps to Secure Your Home Wireless Network
+Turbocharge PuTTY with 12 Powerful Add-Ons
+CATEGORIES
+
+Linux Tutorials
+Vim Editor
+Sed Scripting
+Awk Scripting
+Bash Shell Scripting
+Nagios Monitoring
+OpenSSH
+IPTables Firewall
+Apache Web Server
+MySQL Database
+Perl Programming
+Google Tutorials
+Ubuntu Tutorials
+PostgreSQL DB
+Hello World Examples
+C Programming
+C++ Programming
+DELL Server Tutorials
+Oracle Database
+VMware Tutorials
+
+About The Geek Stuff
+
+
+Linux 101 Hacks Book My name is Ramesh Natarajan. I will be posting instruction guides, how-to, troubleshooting tips and tricks on Linux, database, hardware, security and web. My focus is to write articles that will either teach you or help you resolve a problem. Read more about Ramesh Natarajan and the blog.
+Contact Us
+
+
+Email Me : Use this Contact Form to get in touch me with your comments, questions or suggestions about this site. You can also simply drop me a line to say hello!. 
+
+Follow us on Google+ 
+
+Follow us on Twitter 
+
+Become a fan on Facebook  
+Support Us
+
+
+Support this blog by purchasing one of my ebooks. 
+
+Bash 101 Hacks eBook 
+
+Sed and Awk 101 Hacks eBook 
+
+Vim 101 Hacks eBook 
+
+Nagios Core 3 eBook
+Copyright © 2008–2015 Ramesh Natarajan. All rights reserved | Terms of Service

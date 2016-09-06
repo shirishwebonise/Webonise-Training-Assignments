@@ -1,0 +1,8 @@
+/var/log/testlog.log {
+    missingok
+    notifempty
+    compress
+    size 1k
+    yearly
+    create 0700 webonise
+}
